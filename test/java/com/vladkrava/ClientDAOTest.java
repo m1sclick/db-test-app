@@ -1,6 +1,6 @@
 package com.vladkrava;
 
-import com.vladkrava.dao.ClientDAO;
+import com.vladkrava.dao.DAO;
 import com.vladkrava.entity.Client;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 @ContextConfiguration("classpath:test-spring-config.xml")
 public class ClientDAOTest {
 
-    @Autowired private ClientDAO clientDAO;
+    @Autowired private DAO<Client> clientDAO;
 
     @Test
     @Transactional
@@ -30,10 +30,10 @@ public class ClientDAOTest {
         savedClient.setName("Test Client");
 
 //        save client in test DB and getting record id
-        int savedClientId = clientDAO.save(savedClient);
+        clientDAO.save(savedClient);
 
 //        retrieving saved client from DB using id
-        Client selectedClient = clientDAO.select(savedClientId);
+        Client selectedClient = clientDAO.select(savedClient.getId());
 
 //        compering clients names
         Assert.assertEquals(selectedClient.getName(), savedClient.getName());

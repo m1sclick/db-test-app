@@ -1,7 +1,6 @@
 package com.vladkrava;
 
-import com.vladkrava.dao.ClientAccountDAO;
-import com.vladkrava.dao.ClientDAO;
+import com.vladkrava.dao.DAO;
 import com.vladkrava.entity.Client;
 import com.vladkrava.entity.ClientAccount;
 import org.junit.Assert;
@@ -21,8 +20,8 @@ import javax.transaction.Transactional;
 @ContextConfiguration("classpath:test-spring-config.xml")
 public class ClientAccountDAOTest {
 
-    private @Autowired ClientDAO clientDAO;
-    private @Autowired ClientAccountDAO accountDAO;
+    private @Autowired DAO<Client> clientDAO;
+    private @Autowired DAO<ClientAccount> clientAccountDAO;
 
     @Test
     @Transactional
@@ -32,14 +31,14 @@ public class ClientAccountDAOTest {
         testClient.setName("Test Client");
 
 //        save test client object
-        int testClientId = clientDAO.save(testClient);
+        clientDAO.save(testClient);
 
 //        create test account object
         ClientAccount testClientAccount = new ClientAccount(testClient, 10f);
-        accountDAO.save(testClientAccount);
+        clientAccountDAO.save(testClientAccount);
 
 //        save test account object
-        ClientAccount selectedClientAccount = accountDAO.select(testClientId);
+        ClientAccount selectedClientAccount = clientAccountDAO.select(testClient.getId());
 
 //        check result
         Assert.assertEquals(testClientAccount.getClient().getName(), selectedClientAccount.getClient().getName());

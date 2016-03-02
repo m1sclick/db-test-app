@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public class ClientAccountDAO extends CustomDAOSupport {
+public class ClientAccountDAO extends CustomDAOSupport implements DAO<ClientAccount>{
 
     public ClientAccount select(int id) {
         try {

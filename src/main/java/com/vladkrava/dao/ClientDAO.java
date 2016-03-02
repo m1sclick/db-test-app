@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public class ClientDAO extends CustomDAOSupport {
+public class ClientDAO extends CustomDAOSupport implements DAO<Client> {
 
-    public int save(Client client) {
+    public Client save(Client client) {
         getHibernateTemplate().getSessionFactory().getCurrentSession().save(client);
-        return client.getId();
+        return client;
     }
 
     public Client select(int id) throws ObjectNotFoundException {
